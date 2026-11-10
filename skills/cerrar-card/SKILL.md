@@ -36,7 +36,7 @@ Si no aplica, decir por qué en una línea. Los hallazgos sin resolver van como 
 - `bitacora/` del día: qué se hizo.
 - `00-INDEX.md`: estado.
 - `05-ENTREGAS.md`: terminada con fecha y link a la evidencia. **No** figura como entregada hasta que esté donde el cliente la ve.
-- Si hay git: proponer el mensaje de commit. Commitear solo si el usuario lo pide.
+- Si hay git: proponer el mensaje de commit (sin coautoría ni atribución a la IA). Commitear solo si el usuario lo pide.
 
 ## 5. Proponer el cierre en el gestor
 

@@ -27,7 +27,7 @@ Primera versión como repo. La 1.x era un prompt que se pegaba al iniciar cada p
 - **`06-DISENO.md`** y criterios contra la UI genérica.
 - **Seguridad:** `08-SEGURIDAD.md` (línea base, riesgos aceptados) y `.claude/settings.json` por proyecto.
 - **Protección contra pérdidas:** puntos de restauración verificados (git, base, archivos), reglas de no tocar producción, OK por operación y redundancia de backups.
-- Reglas duras nuevas: commits y push solo a pedido, sin dependencias ni plugins de terceros sin OK, secretos fuera del alcance de Claude.
+- Reglas duras nuevas: commits y push solo a pedido y nunca con la IA como coautora, sin dependencias ni plugins de terceros sin OK, secretos fuera del alcance de Claude.
 
 ### Evaluado y descartado
 

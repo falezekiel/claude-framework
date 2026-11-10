@@ -91,7 +91,7 @@ Ver `02-ESTANDARES.md`. Consistencia es alinearse con buenos estándares, no rep
 
 1. **Migraciones y cambios de estado compartido solo con OK explícito.** Antes de correr una migración, un seed que altere estructura o DDL manual (también en UAT/staging): mostrar la salida del preview y contra qué base/schema, y esperar. Las lecturas no requieren aviso.
 2. **Los cambios locales de ambiente no se commitean.**
-3. **Commits y push solo cuando el usuario lo pide.**
+3. **Commits y push solo cuando el usuario lo pide. Nunca la IA como coautora:** sin `Co-Authored-By` de Claude ni atribuciones a la IA en commits, PRs ni documentos.
 4. **Dependencias, plugins, skills o MCP de terceros:** se proponen con justificación; no se instalan sin OK.
 5. **Claves vs IDs:** cada doc de card lleva el ID interno inmutable del gestor en la cabecera.
 6. **Reportar fielmente:** si un test falla, se dice con la salida; si algo quedó sin hacer, se dice. Nunca "debería funcionar" sin haberlo corrido. Terminada y entregada son estados distintos.
