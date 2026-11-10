@@ -65,7 +65,11 @@
       "Bash(python manage.py migrate *)",
       "Bash(python manage.py flush *)",
       "Bash(npm run db:restore *)",
-      "Bash(npm run db:reset *)"
+      "Bash(npm run db:reset *)",
+      "Bash(supabase db *)",
+      "Bash(npx supabase db *)",
+      "Bash(supabase migration up *)",
+      "Bash(npx supabase migration up *)"
     ]
   }
 }
