@@ -40,6 +40,7 @@ Las tareas independientes y bien especificadas pueden delegarse a subagentes, co
 - Migraciones, seeds estructurales o DDL: `/punto-de-restauracion` + preview + base destino + esperar OK.
 - Cualquier operación destructiva (borrados, resets, escrituras masivas, reescrituras grandes): `/punto-de-restauracion` primero, avisar qué se pierde y esperar OK.
 - Nada de commits ni push sin que el usuario lo pida.
+- Nunca una IA como autora ni coautora: ningún trailer ni pie de atribución, tampoco en comentarios del código. Si el hook `commit-msg` rechaza un commit, se saca la atribución; nunca `--no-verify`.
 - Dependencias nuevas: se proponen con justificación, no se instalan sin OK.
 
 ## Al terminar el plan

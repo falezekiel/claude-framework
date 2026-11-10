@@ -8,6 +8,7 @@
 |---|---|---|---|---|
 | Claude Code | `.claude/settings.json` bloquea `.env`, secretos y comandos destructivos | | | |
 | Claude Code | Sin credenciales de escritura de producción en la máquina de desarrollo | | | |
+| Claude Code | Sin atribución a IAs: `attribution` apagado, hook `commit-msg` activo, historia sin coautorías de IA | | | |
 | Claude Code | `.respaldos/` en `.gitignore` y scripts `db:backup` / `db:restore` | | | |
 | Secretos | `.gitignore` cubre `.env*`, claves y dumps | | | |
 | Secretos | Sin secretos en código ni en historial de git | | | |

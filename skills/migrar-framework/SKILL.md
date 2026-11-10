@@ -42,7 +42,8 @@ Crearlo desde la plantilla con los parámetros que ya estén en los docs (`01-CO
 
 ## 3. Lo nuevo
 
-- `.claude/settings.json` desde `claude-settings.json`, mostrándolo antes. Si Claude venía leyendo el `.env`, se pasa a trabajar con `.env.example`.
+- `.claude/settings.json` desde `claude-settings.json`, mostrándolo antes. Si Claude venía leyendo el `.env`, se pasa a trabajar con `.env.example`. Si el proyecto ya tenía un settings, se combinan: se suman `attribution` y las reglas nuevas sin borrar las existentes.
+- Regla dura "nunca una IA como autora ni coautora": se reemplaza la versión vieja en el `CLAUDE.md` y se instala el hook `commit-msg` como en el paso 11 de `/iniciar-proyecto`. Se buscan atribuciones en la historia y se informan. No se reescribe la historia sin OK.
 - `08-SEGURIDAD.md`: correr `/hardening inicial`, o dejarlo como pendiente si el usuario prefiere.
 - Playwright: proponerlo según el paso 1 de `/pruebas-e2e`, con OK.
 - `06-DISENO.md` si hay frontend: documentar el sistema visual existente, sin inventar uno nuevo.

@@ -1,4 +1,9 @@
 {
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
   "permissions": {
     "disableBypassPermissionsMode": "disable",
     "deny": [
@@ -25,6 +30,14 @@
       "Bash(git push --force *)",
       "Bash(git push -f *)",
       "Bash(git push --force-with-lease *)",
+      "Bash(git commit *--no-verify*)",
+      "Bash(git commit -n *)",
+      "Bash(git push *--no-verify*)",
+      "Bash(git -c core.hooksPath*)",
+      "PowerShell(git commit *--no-verify*)",
+      "PowerShell(git commit -n *)",
+      "PowerShell(git push *--no-verify*)",
+      "PowerShell(git -c core.hooksPath*)",
       "Bash(dropdb *)",
       "Bash(docker system prune *)",
       "Bash(docker volume rm *)",
@@ -45,6 +58,10 @@
       "Bash(git rebase *)",
       "Bash(git stash drop *)",
       "Bash(git stash clear)",
+      "Bash(git config core.hooksPath*)",
+      "Bash(git config --unset core.hooksPath*)",
+      "PowerShell(git config core.hooksPath*)",
+      "PowerShell(git config --unset core.hooksPath*)",
       "Bash(npm install *)",
       "Bash(npm i *)",
       "Bash(npm add *)",

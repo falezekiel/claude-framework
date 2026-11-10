@@ -29,6 +29,12 @@ Resultado: `tasks/08-SEGURIDAD.md` (plantilla en `${CLAUDE_SKILL_DIR}/../iniciar
   - **deny:** lectura de `.env` reales y claves; `rm -rf`, force push, `dropdb`, borrado de volúmenes de Docker, `terraform destroy`; el modo que saltea permisos (`disableBypassPermissionsMode`).
   - **ask:** cualquier `rm` o `Remove-Item`, `git push`, `reset --hard`, `clean`, `restore`, rebase, borrar ramas; instalar dependencias; clientes de base (`psql`, `mysql`, `mongosh`, `sqlite3`); comandos de migración de los ORM más comunes. Agregar los del stack del proyecto.
   - En Windows, las reglas `Bash(...)` no cubren la herramienta PowerShell: los comandos equivalentes van como `PowerShell(...)`.
+- **Sin atribución a ninguna IA** (regla dura del `CLAUDE.md`):
+  - `.claude/settings.json` tiene `"attribution": { "commit": "", "pr": "", "sessionUrl": false }`.
+  - El hook está activo: `git config core.hooksPath` devuelve `.githooks`, y `.githooks/commit-msg` existe y es ejecutable.
+  - Para verificar el hook, se prueba en un repo temporal, nunca en el del proyecto. Se commitea un mensaje con `Co-Authored-By: Claude <noreply@anthropic.com>` y el hook tiene que rechazarlo.
+  - Historia limpia: `git log --all -i -E --format='%h %an <%ae> %s' --grep='co-authored-by:.*(claude|anthropic|copilot|openai|chatgpt|gemini|cursor)' --grep='generated (with|by) .*(claude|copilot|chatgpt|gemini|cursor)' --grep='claude-session:'`. Revisar también los autores: `git log --all --format='%an <%ae>' | sort -u`.
+  - Lo que aparezca se informa. Si ya está pusheado, no se reescribe la historia sin OK.
 - Claude trabaja con `.env.example` (nombres de variables, sin valores). Si no existe, se crea.
 - `.respaldos/` en `.gitignore`, para los puntos de restauración de base y archivos.
 - Si se trabaja en Linux, macOS o WSL2, evaluar `sandbox.enabled` en settings, que limita a nivel de sistema operativo lo que pueden leer y escribir los comandos.

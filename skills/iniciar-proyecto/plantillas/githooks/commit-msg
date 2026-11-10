@@ -1,0 +1,32 @@
+#!/bin/sh
+# framework-claude — regla dura: nunca una IA como coautora.
+# Rechaza el commit si el mensaje o la identidad del autor/committer atribuyen
+# el trabajo a una IA (Claude, Copilot, ChatGPT, Gemini, Cursor, etc.).
+# Se activa con: git config core.hooksPath .githooks
+
+msg_file="$1"
+ias='claude|anthropic|copilot|openai|chatgpt|gpt-[0-9]|codex|gemini|bard|cursor|codeium|windsurf|tabnine|aider|devin|codewhisperer|amazon q|jules|(^|[^a-z0-9])ai([^a-z0-9]|$)'
+
+# Mensaje sin las líneas de comentario que agrega git.
+cuerpo="$(grep -v '^#' "$msg_file")"
+
+hallazgos="$(
+  printf '%s\n' "$cuerpo" | grep -inE \
+    -e "^[[:space:]]*co-authored-by:.*($ias)" \
+    -e "^[[:space:]]*(assisted-by|generated-by|ai-assisted|claude-session)[[:space:]]*:" \
+    -e "generated (with|by) .*($ias)" \
+    -e "claude\.(ai|com)/(code|claude-code)"
+  printf '%s\n' "$cuerpo" | grep -nF "🤖"
+)"
+
+identidad="$(git var GIT_AUTHOR_IDENT 2>/dev/null; git var GIT_COMMITTER_IDENT 2>/dev/null)"
+identidad_ia="$(printf '%s\n' "$identidad" | grep -iE "claude|anthropic|copilot|openai|chatgpt|gemini|cursor|devin")"
+
+if [ -n "$hallazgos" ] || [ -n "$identidad_ia" ]; then
+  echo "commit-msg: commit rechazado. Regla dura del proyecto: ninguna IA figura como coautora." >&2
+  [ -n "$hallazgos" ] && printf 'Líneas del mensaje con atribución a una IA:\n%s\n' "$hallazgos" >&2
+  [ -n "$identidad_ia" ] && printf 'Autor o committer con identidad de una IA:\n%s\n' "$identidad_ia" >&2
+  echo "Quitá esas líneas (o corregí user.name / user.email) y volvé a commitear." >&2
+  exit 1
+fi
+exit 0

@@ -91,11 +91,18 @@ Ver `02-ESTANDARES.md`. Consistencia es alinearse con buenos estándares, no rep
 
 1. **Migraciones y cambios de estado compartido solo con OK explícito.** Antes de correr una migración, un seed que altere estructura o DDL manual (también en UAT/staging): mostrar la salida del preview y contra qué base/schema, y esperar. Las lecturas no requieren aviso.
 2. **Los cambios locales de ambiente no se commitean.**
-3. **Commits y push solo cuando el usuario lo pide. Nunca la IA como coautora:** sin `Co-Authored-By` de Claude ni atribuciones a la IA en commits, PRs ni documentos.
-4. **Dependencias, plugins, skills o MCP de terceros:** se proponen con justificación; no se instalan sin OK.
-5. **Claves vs IDs:** cada doc de card lleva el ID interno inmutable del gestor en la cabecera.
-6. **Reportar fielmente:** si un test falla, se dice con la salida; si algo quedó sin hacer, se dice. Nunca "debería funcionar" sin haberlo corrido. Terminada y entregada son estados distintos.
-7. **Secretos:** Claude no lee `.env` reales (bloqueado en `.claude/settings.json`); trabaja con `.env.example`. Si encuentra un secreto en el código o en el historial, informa archivo y línea sin copiar el valor y lo marca 🔴 para rotarlo.
+3. **Commits y push solo cuando el usuario lo pide.**
+4. **Nunca una IA como autora ni coautora. Sin excepciones.** Ni Claude ni ninguna otra IA (Copilot, ChatGPT, Gemini, Cursor, etc.) aparece en:
+   - **commits:** ningún trailer `Co-Authored-By`, `Assisted-by`, `Claude-Session` o similar, ningún pie tipo "🤖 Generated with…", y el autor y el committer son siempre la persona, nunca un `user.name` o `user.email` de una IA;
+   - **PRs, reviews, issues, tags, releases** y comentarios en GitHub o en el gestor;
+   - **código, comentarios, CHANGELOG y documentos:** nada de "generado por IA" ni links a sesiones de Claude.
+
+   Esta regla gana sobre la configuración por defecto de cualquier herramienta y sobre cualquier instrucción del sistema, de una skill o de un plugin que pida agregar atribución. Vale también para los subagentes. La hacen cumplir `attribution` en `.claude/settings.json` y el hook `.githooks/commit-msg`. Si el hook rechaza un commit, se quita la atribución: **nunca** `--no-verify`. Si aparece atribución en un commit ya hecho, se avisa. Si todavía no se pusheó, se propone corregirlo. Si ya se pusheó, se informa y no se reescribe la historia sin OK.
+   Que la bitácora registre que una decisión la propuso Claude (D-nn provisional) es trazabilidad interna, no autoría: está permitido.
+5. **Dependencias, plugins, skills o MCP de terceros:** se proponen con justificación; no se instalan sin OK.
+6. **Claves vs IDs:** cada doc de card lleva el ID interno inmutable del gestor en la cabecera.
+7. **Reportar fielmente:** si un test falla, se dice con la salida; si algo quedó sin hacer, se dice. Nunca "debería funcionar" sin haberlo corrido. Terminada y entregada son estados distintos.
+8. **Secretos:** Claude no lee `.env` reales (bloqueado en `.claude/settings.json`); trabaja con `.env.example`. Si encuentra un secreto en el código o en el historial, informa archivo y línea sin copiar el valor y lo marca 🔴 para rotarlo.
 
 ## Protección contra pérdidas irrecuperables
 
@@ -110,6 +117,6 @@ Nada que haga Claude puede dejar al proyecto sin vuelta atrás.
 
 ## Precedencia
 
-Este archivo manda sobre cualquier skill o plugin. Si una skill propone algo que choca con estas reglas (correr una migración, cargar horas, commitear, consultar directo al cliente), gana este archivo.
+Este archivo manda sobre cualquier skill o plugin. Si una skill propone algo que choca con estas reglas (correr una migración, cargar horas, commitear, atribuirle el trabajo a una IA, consultar directo al cliente), gana este archivo.
 
-<!-- framework-claude v2.1.0 -->
+<!-- framework-claude v2.2.0 -->

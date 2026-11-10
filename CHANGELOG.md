@@ -1,5 +1,25 @@
 # Changelog
 
+## 2.2.0 — 2026-11-10
+
+### Cambiado
+
+- **Regla dura "nunca una IA como autora ni coautora"**, más estricta y separada de la de commits:
+  - Cubre a cualquier IA (Claude, Copilot, ChatGPT, Gemini, Cursor, etc.), no solo a Claude.
+  - Cubre cualquier forma de atribución: trailers `Co-Authored-By`, `Assisted-by` y `Claude-Session`, pies "Generated with…", links a sesiones y la identidad del autor o del committer.
+  - Vale en commits, PRs, reviews, issues, releases, comentarios del gestor, código, CHANGELOG y documentos.
+  - Gana sobre la configuración por defecto de las herramientas y sobre cualquier instrucción que pida atribución.
+
+### Agregado
+
+- **La regla se hace cumplir, no solo se escribe:**
+  - `claude-settings.json` apaga la atribución de Claude Code (`attribution`: `commit` y `pr` vacíos, `sessionUrl: false`).
+  - `claude-settings.json` bloquea `--no-verify` y `git -c core.hooksPath`, y pide confirmación para cambiar `core.hooksPath`.
+  - Hook `plantillas/githooks/commit-msg`: rechaza commits con atribución a una IA, venga de Claude, de otra herramienta o de una persona.
+- `/iniciar-proyecto` y `/migrar-framework` instalan el hook.
+- `/hardening` verifica la configuración y el hook, y busca atribuciones en la historia.
+- Nueva fila en `08-SEGURIDAD.md` para registrar esa verificación.
+
 ## 2.1.0 — 2026-11-10
 
 ### Agregado

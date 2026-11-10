@@ -80,7 +80,11 @@ Seguir el paso "Preparar" de `/pruebas-e2e`: proponer la instalación de Playwri
 
 ## 11. Seguridad
 
-- Copiar `plantillas/claude-settings.json` a `.claude/settings.json` del proyecto (bloquea lectura de `.env` reales, pide confirmación para push e instalar dependencias). Mostrarlo y confirmar con el usuario antes.
+- Copiar `plantillas/claude-settings.json` a `.claude/settings.json` del proyecto. Bloquea la lectura de `.env` reales y el salteo de hooks, apaga toda atribución de Claude Code en commits y PRs (`attribution`), y pide confirmación para push e instalar dependencias. Mostrarlo y confirmar con el usuario antes.
+- **Hook contra la atribución a una IA** (regla dura 4 del `CLAUDE.md`): copiar `plantillas/githooks/commit-msg` a `.githooks/commit-msg`, hacerlo ejecutable (`chmod +x` y `git add --chmod=+x`) y activarlo con `git config core.hooksPath .githooks`, con OK. El hook rechaza commits con trailers o pies de atribución a cualquier IA, o con un autor que sea una IA. Funciona igual si el commit lo hace Claude, otra herramienta o una persona.
+  - Si el proyecto ya usa otro gestor de hooks (husky, lefthook, `core.hooksPath` propio), no se pisa: se suma el contenido del hook al `commit-msg` existente.
+  - `core.hooksPath` es configuración local: cada clon lo activa una vez. Agregar ese comando al `README` del proyecto.
+  - Si el repo ya tiene historia, buscar atribuciones previas (ver `/hardening`) e informarlas sin reescribir nada.
 - Si no existe `.env.example`, crearlo con los nombres de las variables, sin valores.
 - Correr `/hardening inicial` → `tasks/08-SEGURIDAD.md`. Lo que se resuelve con configuración desde el día uno entra en el orden de ataque de `00-INDEX`.
 
