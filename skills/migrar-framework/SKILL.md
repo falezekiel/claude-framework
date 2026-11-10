@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Para proyectos que ya tienen `tasks/` armado con una versión anterior (por ejemplo, el prompt que se pegaba al iniciar). **La historia del proyecto no se toca:** bitácora, decisiones, hallazgos, pendientes y docs de cards se conservan tal cual.
 
-Plantillas actuales: `~/.claude/skills/iniciar-proyecto/plantillas/`. La versión del framework figura al final del `CLAUDE.md` de cada proyecto (`<!-- framework-claude vX.Y.Z -->`); si no está, es la versión del prompt pegado.
+Plantillas actuales: `${CLAUDE_SKILL_DIR}/../iniciar-proyecto/plantillas/`. La versión del framework figura al final del `CLAUDE.md` de cada proyecto (`<!-- framework-claude vX.Y.Z -->`); si no está, es la versión del prompt pegado.
 
 ## 0. Diagnóstico (sin escribir nada)
 

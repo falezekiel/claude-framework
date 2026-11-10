@@ -1,0 +1,11 @@
+{
+  "name": "framework-claude",
+  "owner": { "name": "EzeDecan" },
+  "plugins": [
+    {
+      "name": "framework",
+      "source": "./",
+      "description": "Metodología de documentación viva para proyectos con Claude Code: flujo por card, evidencia de pruebas, hardening y puntos de restauración."
+    }
+  ]
+}

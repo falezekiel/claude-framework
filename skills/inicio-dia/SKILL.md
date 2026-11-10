@@ -12,7 +12,7 @@ En este paso no se toca código.
    - `tasks/07-PENDIENTES.md`: todos los 🔴 y 🟡 abiertos.
    - El último archivo de `tasks/bitacora/`: en qué quedó la sesión anterior.
    - `tasks/00-INDEX.md`: estado de las cards y orden de ataque.
-2. **Crear** `tasks/bitacora/AAAA-MM-DD.md` de hoy si no existe (plantilla en `~/.claude/skills/iniciar-proyecto/plantillas/BITACORA-DIA.md`).
+2. **Crear** `tasks/bitacora/AAAA-MM-DD.md` de hoy si no existe (plantilla en `${CLAUDE_SKILL_DIR}/../iniciar-proyecto/plantillas/BITACORA-DIA.md`).
 3. **Si hay git**, mirar `git status`: si quedaron cambios sin commitear de la sesión anterior, mencionarlos.
 4. **Reportar en pocas líneas:**
    - **Bloqueos:** cada 🔴 abierto, qué card bloquea y desde cuándo está abierto.

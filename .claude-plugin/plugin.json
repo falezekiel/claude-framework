@@ -1,0 +1,5 @@
+{
+  "name": "framework",
+  "description": "Metodología de documentación viva para proyectos con Claude Code: flujo por card, evidencia de pruebas, hardening y puntos de restauración.",
+  "author": { "name": "EzeDecan" }
+}

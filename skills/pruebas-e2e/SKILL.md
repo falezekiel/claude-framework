@@ -8,7 +8,7 @@ argument-hint: "[CLAVE]"
 
 La evidencia responde "¿cómo sabemos que funciona?" con algo que se puede mostrar: una captura, una respuesta guardada, una traza. Sirve para cerrar la card, para el comentario del gestor y para las demos.
 
-Plantillas: `~/.claude/skills/iniciar-proyecto/plantillas/e2e/` (`playwright.config.ts` y `evidencia.ts`).
+Plantillas: `${CLAUDE_SKILL_DIR}/../iniciar-proyecto/plantillas/e2e/` (`playwright.config.ts` y `evidencia.ts`).
 
 ## 1. Preparar (una vez por proyecto)
 

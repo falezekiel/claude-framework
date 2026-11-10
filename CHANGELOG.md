@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.1.0 — 2026-11-10
+
+### Agregado
+
+- **Distribución como plugin:** `.claude-plugin/marketplace.json` y `plugin.json`. Se instala con `/plugin marketplace add` + `/plugin install` y se actualiza desde GitHub.
+- `instalar.sh` para macOS y Linux.
+- `/iniciar-proyecto` puede dejar el marketplace referenciado en el `.claude/settings.json` del proyecto, para equipos.
+- README: qué comando usar según el proyecto (nuevo, con la versión anterior, o ya actualizado).
+
+### Cambiado
+
+- Las skills ubican sus plantillas y scripts con `${CLAUDE_SKILL_DIR}`, así funcionan igual instaladas como skills personales o como plugin.
+
 ## 2.0.0 — 2026-11-10
 
 Primera versión como repo. La 1.x era un prompt que se pegaba al iniciar cada proyecto.

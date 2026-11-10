@@ -7,7 +7,7 @@ argument-hint: "[nombre del proyecto]"
 
 # Iniciar proyecto
 
-Las plantillas están en `~/.claude/skills/iniciar-proyecto/plantillas/`. Se copian y se completan; las secciones que no aplican se borran en lugar de dejarlas vacías.
+Las plantillas están en `${CLAUDE_SKILL_DIR}/plantillas/`. Se copian y se completan; las secciones que no aplican se borran en lugar de dejarlas vacías.
 
 ## 0. No pisar lo que existe
 
@@ -84,6 +84,19 @@ Seguir el paso "Preparar" de `/pruebas-e2e`: proponer la instalación de Playwri
 - Si no existe `.env.example`, crearlo con los nombres de las variables, sin valores.
 - Correr `/hardening inicial` → `tasks/08-SEGURIDAD.md`. Lo que se resuelve con configuración desde el día uno entra en el orden de ataque de `00-INDEX`.
 
-## 12. Cierre
+## 12. Equipo (si otras personas van a trabajar el proyecto con Claude)
+
+Preguntar si el proyecto se va a compartir. Si sí, agregar al `.claude/settings.json` del proyecto el marketplace y el plugin del framework, para que quien clone el repo lo tenga referenciado:
+
+```json
+"extraKnownMarketplaces": {
+  "framework-claude": { "source": { "source": "github", "repo": "<usuario>/framework-claude" } }
+},
+"enabledPlugins": { "framework@framework-claude": true }
+```
+
+Y en el `README` del proyecto, la instrucción para cada persona (una vez por clon): `claude plugin install framework@framework-claude --scope project`. Si el repo del framework es privado, cada persona necesita acceso de lectura en GitHub.
+
+## 13. Cierre
 
 Resumir: qué se creó, qué se midió de destacable, los 🔴 abiertos (con el texto de la consulta listo para el líder técnico) y la primera card sugerida.

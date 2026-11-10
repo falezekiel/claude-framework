@@ -8,7 +8,7 @@ argument-hint: "[inicial | pre-produccion]"
 
 `/security-review` revisa los **cambios** de una card. Esta skill revisa la **línea base** del proyecto entero: las defensas y la configuración que tienen que estar siempre, aunque ninguna card las toque.
 
-Resultado: `tasks/08-SEGURIDAD.md` (plantilla en `~/.claude/skills/iniciar-proyecto/plantillas/08-SEGURIDAD.md`), con cada punto en ✅ / ❌ / N/A, cómo se verificó y, si falta, la card o P-nn que lo resuelve.
+Resultado: `tasks/08-SEGURIDAD.md` (plantilla en `${CLAUDE_SKILL_DIR}/../iniciar-proyecto/plantillas/08-SEGURIDAD.md`), con cada punto en ✅ / ❌ / N/A, cómo se verificó y, si falta, la card o P-nn que lo resuelve.
 
 ## Cuándo
 

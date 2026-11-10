@@ -15,7 +15,7 @@ Antes de elegir un color: qué es, para quién, y cuál es la tarea principal de
 
 ## 2. Plan antes de construir → `tasks/06-DISENO.md`
 
-(plantilla en `~/.claude/skills/iniciar-proyecto/plantillas/06-DISENO.md`)
+(plantilla en `${CLAUDE_SKILL_DIR}/../iniciar-proyecto/plantillas/06-DISENO.md`)
 
 - **Dirección:** una frase sobre qué tiene que sentir quien lo usa.
 - **Color:** 4 a 6 colores con nombre y uso (fondo, superficie, texto, acento, estados). Contraste AA como mínimo.

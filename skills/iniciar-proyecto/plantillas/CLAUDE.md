@@ -41,7 +41,7 @@ Antes de tocar código, correr `/inicio-dia`. Si un 🔴 de `07-PENDIENTES.md` b
 | `DEMO-[fecha].md` | Qué se muestra, qué queda afuera y con qué condiciones |
 | `[CLAVE]-[slug].md` | Un doc por card: qué pide, contexto, diseño, plan, estado. ID interno en la cabecera |
 
-Plantillas: `~/.claude/skills/iniciar-proyecto/plantillas/`.
+Plantillas: carpeta `plantillas/` de la skill `iniciar-proyecto` del framework.
 
 ## Qué se registra sin que lo pidan
 
@@ -112,4 +112,4 @@ Nada que haga Claude puede dejar al proyecto sin vuelta atrás.
 
 Este archivo manda sobre cualquier skill o plugin. Si una skill propone algo que choca con estas reglas (correr una migración, cargar horas, commitear, consultar directo al cliente), gana este archivo.
 
-<!-- framework-claude v2.0.0 -->
+<!-- framework-claude v2.1.0 -->

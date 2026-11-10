@@ -10,15 +10,54 @@ Todo está escrito a mano y no depende de plugins ni de repos de terceros. Algun
 
 ## Instalación
 
-```powershell
-git clone <url-de-este-repo> C:\Eze\awesome\framework-claude
-cd C:\Eze\awesome\framework-claude
-.\instalar.ps1
+Elegí **una** de las dos formas: si instalás las dos, cada skill aparece dos veces.
+
+### A. Como plugin (para usarlo: un comando, se actualiza desde GitHub)
+
+Dentro de Claude Code:
+
+```
+/plugin marketplace add <usuario>/framework-claude
+/plugin install framework@framework-claude
 ```
 
-`instalar.ps1` copia las skills a `~/.claude/skills/`. Solo reemplaza las carpetas de este repo y no toca otras skills que tengas instaladas. Si Claude Code ya estaba abierto, puede hacer falta reiniciar la sesión para que tome los cambios.
+O desde la terminal:
 
-**Las mejoras se hacen en este repo**, no en `~/.claude/skills/`: lo que se edite allá se pisa en la próxima instalación. Flujo: editar acá → `.\instalar.ps1` → commit.
+```
+claude plugin marketplace add <usuario>/framework-claude --scope user
+claude plugin install framework@framework-claude --scope user
+```
+
+Las skills quedan con el prefijo del plugin: `/framework:iniciar-proyecto`, `/framework:cerrar-card`, etc. Las instrucciones internas las nombran sin prefijo, y Claude las resuelve igual.
+
+**Actualizar:** `/plugin marketplace update framework-claude` (o activar la actualización automática en `/plugin` → Marketplaces). Cada push a este repo es una versión nueva.
+
+**Repo privado:** quien instale necesita acceso de lectura al repo en GitHub y git autenticado en su máquina.
+
+### B. Como skills personales (para desarrollar el framework)
+
+```powershell
+git clone <url-de-este-repo>
+cd framework-claude
+.\instalar.ps1        # Windows
+./instalar.sh         # macOS / Linux
+```
+
+Copia las skills a `~/.claude/skills/` con nombres cortos (`/cerrar-card`). Solo reemplaza las carpetas de este repo y no toca otras skills que tengas. Si Claude Code ya estaba abierto, reiniciá la sesión.
+
+**Las mejoras se hacen en este repo**, no en `~/.claude/skills/`: lo que se edite allá se pisa en la próxima instalación. Flujo: editar acá → instalar → commit → push (quien lo use como plugin lo recibe al actualizar).
+
+## Usarlo en un proyecto
+
+Abrir Claude Code en la carpeta del proyecto y:
+
+| Situación | Comando |
+|---|---|
+| Proyecto nuevo, o existente que nunca usó el framework | `/iniciar-proyecto` |
+| Proyecto que usa la versión anterior (el prompt pegado, o una v2 más vieja) | `/migrar-framework` |
+| Proyecto que ya tiene el framework actual | Nada: Claude lee el `CLAUDE.md` del proyecto y arrancás con `/inicio-dia` |
+
+Para que un equipo comparta el framework en un proyecto, `/iniciar-proyecto` puede dejar el marketplace referenciado en el `.claude/settings.json` del proyecto. Cada persona igual corre una vez `claude plugin install framework@framework-claude --scope project`: Claude Code no instala plugins solo.
 
 ## Skills
 

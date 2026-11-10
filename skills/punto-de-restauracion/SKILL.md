@@ -23,7 +23,7 @@ Si hay duda, se crea: cuesta segundos.
 ## 1. Código (git)
 
 ```bash
-bash ~/.claude/skills/punto-de-restauracion/crear-punto.sh "motivo"
+bash "${CLAUDE_SKILL_DIR}/crear-punto.sh" "motivo"
 ```
 
 Guarda el working tree completo (cambios y archivos nuevos no trackeados, respetando `.gitignore`) en `refs/restauracion/<fecha-hora>`. **No toca la rama, el índice ni los archivos**, no crea commits en la rama y no se pushea. Verifica lo guardado e imprime cómo restaurar.
