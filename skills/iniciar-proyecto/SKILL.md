@@ -90,7 +90,7 @@ Preguntar si el proyecto se va a compartir. Si sí, agregar al `.claude/settings
 
 ```json
 "extraKnownMarketplaces": {
-  "framework-claude": { "source": { "source": "github", "repo": "<usuario>/framework-claude" } }
+  "framework-claude": { "source": { "source": "github", "repo": "falezekiel/claude-framework" } }
 },
 "enabledPlugins": { "framework@framework-claude": true }
 ```

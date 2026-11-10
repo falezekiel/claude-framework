@@ -17,14 +17,14 @@ Elegí **una** de las dos formas: si instalás las dos, cada skill aparece dos v
 Dentro de Claude Code:
 
 ```
-/plugin marketplace add <usuario>/framework-claude
+/plugin marketplace add falezekiel/claude-framework
 /plugin install framework@framework-claude
 ```
 
 O desde la terminal:
 
 ```
-claude plugin marketplace add <usuario>/framework-claude --scope user
+claude plugin marketplace add falezekiel/claude-framework --scope user
 claude plugin install framework@framework-claude --scope user
 ```
 
