@@ -23,8 +23,10 @@ Si hay duda, se crea: cuesta segundos.
 ## 1. Código (git)
 
 ```bash
-bash "${CLAUDE_SKILL_DIR}/crear-punto.sh" "motivo"
+bash "${CLAUDE_SKILL_DIR}/crear-punto.sh" "motivo" [ruta-del-repo]
 ```
+
+Sin ruta usa el repo de la carpeta actual. Con varios repos (tabla **Workspace y repos** del `CLAUDE.md`), se crea un punto en **cada repo que toca la operación**, pasando su ruta. Los comandos para listar y restaurar se corren con `git -C <ruta>`.
 
 Guarda el working tree completo (cambios y archivos nuevos no trackeados, respetando `.gitignore`) en `refs/restauracion/<fecha-hora>`. **No toca la rama, el índice ni los archivos**, no crea commits en la rama y no se pushea. Verifica lo guardado e imprime cómo restaurar.
 
@@ -33,7 +35,7 @@ Guarda el working tree completo (cambios y archivos nuevos no trackeados, respet
 - Restaurar todo: `git restore --source=refs/restauracion/<id> --worktree -- .` (se propone; se ejecuta con OK)
 - Limpieza: los puntos de más de 30 días se borran solo con OK del usuario (`git update-ref -d refs/restauracion/<id>`).
 
-Si el proyecto no es repo git, proponer `git init` antes de seguir. Sin git no hay red para el código.
+Si lo que se va a tocar no está en ningún repo git, proponer `git init` antes de seguir: sin git no hay red para el código. Excepción: en un repo del equipo o de referencia no se inicializa nada. Y si la raíz del workspace no es repo, `tasks/` y los archivos sueltos de la raíz se respaldan como en el paso 3.
 
 ## 2. Base de datos
 
@@ -44,7 +46,7 @@ Solo bases locales o de desarrollo: Claude no tiene credenciales de escritura de
   - MySQL/MariaDB: `mysqldump --single-transaction --routines <base> > <archivo>.sql`
   - SQLite: `sqlite3 <base> ".backup '<archivo>.db'"`
   - MongoDB: `mongodump --archive=<archivo>.archive`
-- Destino: `.respaldos/` en la raíz del proyecto (en `.gitignore`), con fecha-hora y motivo en el nombre.
+- Destino: `.respaldos/` en la raíz del workspace, con fecha-hora y motivo en el nombre. Va en el `.gitignore` si la raíz es un repo propio. Nunca dentro de un repo del equipo.
 - **Verificar** que el archivo exista, no esté vacío y sea legible: `pg_restore --list`, las primeras líneas del `.sql`, `sqlite3 <archivo> "PRAGMA integrity_check"`, `mongorestore --dryRun`. Sin verificación no hay punto de restauración.
 - Restaurar: `npm run db:restore` o el comando del motor, siempre con OK.
 

@@ -1,6 +1,6 @@
 ---
 name: hardening
-description: Endurece la seguridad de un proyecto — revisa la línea base de la app (secretos, dependencias, headers, cookies, auth, validación, pagos y webhooks, errores, datos, repo de GitHub) y del propio Claude Code (permisos), y la registra en tasks/08-SEGURIDAD.md. Usar al iniciar un proyecto, antes de cada salida a producción, o cuando el usuario pide revisar o endurecer la seguridad.
+description: Endurece la seguridad de un proyecto — revisa la línea base de la app (secretos, dependencias, headers, cookies, auth, validación, pagos y webhooks, errores, datos, repos remotos) y del propio Claude Code (permisos), y la registra en tasks/08-SEGURIDAD.md. Usar al iniciar un proyecto, antes de cada salida a producción, o cuando el usuario pide revisar o endurecer la seguridad.
 argument-hint: "[inicial | pre-produccion]"
 ---
 
@@ -20,23 +20,29 @@ Resultado: `tasks/08-SEGURIDAD.md` (plantilla en `${CLAUDE_SKILL_DIR}/../iniciar
 
 - **Medir, no suponer:** cada ✅ dice cómo se verificó (comando, archivo, respuesta HTTP). Si no se pudo verificar, no es ✅.
 - **Diagnosticar y proponer, no reescribir:** los arreglos se hacen como cards o tareas de un plan, con el flujo normal. Lo que se resuelve con una línea de configuración se puede proponer en el momento.
-- **Infraestructura y repo remoto** (hosting, DNS, configuración de GitHub): se propone el cambio; lo hace o lo aprueba el usuario.
+- **Infraestructura y repo remoto** (hosting, DNS, configuración de GitHub o Azure DevOps): se propone el cambio; lo hace o lo aprueba el usuario.
+- **Por repo:** con varios repos (tabla **Workspace y repos** del `CLAUDE.md`), Claude Code se revisa una vez para el workspace. Secretos, dependencias y repositorio remoto se revisan en cada repo que no sea de referencia, anotando el repo en cada fila de `08-SEGURIDAD.md`. En los repos del equipo se diagnostica igual, pero los cambios en su configuración compartida se proponen al equipo como P-nn.
 - **Nunca copiar un secreto** al chat ni a un doc. Si aparece uno, se informa archivo y línea, y se marca 🔴 para rotarlo (borrarlo del código no alcanza si ya está en el historial).
 
 ## 1. Claude Code (el entorno de trabajo)
 
-- `.claude/settings.json` del proyecto desde `plantillas/claude-settings.json`:
+- Claude Code se abre en la raíz del workspace: es el único `.claude/settings.json` que se carga. Si un repo del equipo tiene su propio `.claude/settings.json`, sus reglas `deny` y `ask` tienen que estar sumadas al de la raíz.
+- `.claude/settings.json` de la raíz desde `plantillas/claude-settings.json`:
   - **deny:** lectura de `.env` reales y claves; `rm -rf`, force push, `dropdb`, borrado de volúmenes de Docker, `terraform destroy`; el modo que saltea permisos (`disableBypassPermissionsMode`).
   - **ask:** cualquier `rm` o `Remove-Item`, `git push`, `reset --hard`, `clean`, `restore`, rebase, borrar ramas; instalar dependencias; clientes de base (`psql`, `mysql`, `mongosh`, `sqlite3`); comandos de migración de los ORM más comunes. Agregar los del stack del proyecto.
   - En Windows, las reglas `Bash(...)` no cubren la herramienta PowerShell: los comandos equivalentes van como `PowerShell(...)`.
 - **Sin atribución a ninguna IA** (regla dura del `CLAUDE.md`):
   - `.claude/settings.json` tiene `"attribution": { "commit": "", "pr": "", "sessionUrl": false }`.
-  - El hook está activo: `git config core.hooksPath` devuelve `.githooks`, y `.githooks/commit-msg` existe y es ejecutable.
+  - El hook está activo en cada repo donde se commitea:
+    - En los propios, `git -C <ruta> config core.hooksPath` devuelve `.githooks`, y `.githooks/commit-msg` existe y es ejecutable.
+    - En los del equipo, existe `commit-msg` (o `commit-msg-framework`) en la carpeta de `git -C <ruta> rev-parse --git-path hooks`.
+    - Si un repo del equipo usa `core.hooksPath` propio, queda sin hook: tiene que estar registrado como H-nn.
   - Para verificar el hook, se prueba en un repo temporal, nunca en el del proyecto. Se commitea un mensaje con `Co-Authored-By: Claude <noreply@anthropic.com>` y el hook tiene que rechazarlo.
   - Historia limpia: `git log --all -i -E --format='%h %an <%ae> %s' --grep='co-authored-by:.*(claude|anthropic|copilot|openai|chatgpt|gemini|cursor)' --grep='generated (with|by) .*(claude|copilot|chatgpt|gemini|cursor)' --grep='claude-session:'`. Revisar también los autores: `git log --all --format='%an <%ae>' | sort -u`.
-  - Lo que aparezca se informa. Si ya está pusheado, no se reescribe la historia sin OK.
+  - Lo que aparezca se informa. Si ya está pusheado, no se reescribe la historia sin OK. En los repos del equipo, lo de otras personas solo se informa.
 - Claude trabaja con `.env.example` (nombres de variables, sin valores). Si no existe, se crea.
-- `.respaldos/` en `.gitignore`, para los puntos de restauración de base y archivos.
+- `.respaldos/` en la raíz del workspace, ignorado por git si la raíz es repo, para los puntos de restauración de base y archivos.
+- Si la raíz no es un repo, `tasks/` tiene respaldo: un repo propio de documentación (ver `/iniciar-proyecto`) o copias periódicas.
 - Si se trabaja en Linux, macOS o WSL2, evaluar `sandbox.enabled` en settings, que limita a nivel de sistema operativo lo que pueden leer y escribir los comandos.
 - Estas reglas son una red, no una garantía: la documentación de Claude Code aclara que las reglas de permisos no son una barrera de seguridad (por ejemplo, un deny de `Read` no frena un `cat` hecho con otro comando). Lo que de verdad protege es que en la máquina de desarrollo no haya secretos ni credenciales de escritura de producción.
 
@@ -100,13 +106,13 @@ Resultado: `tasks/08-SEGURIDAD.md` (plantilla en `${CLAUDE_SKILL_DIR}/../iniciar
 - Migraciones reversibles (`down`) y soft-delete en entidades de negocio.
 - Ambientes separados: staging no usa datos reales sin anonimizar.
 
-## 10. Repositorio en GitHub
+## 10. Repositorio remoto
 
-Funciones nativas de GitHub, no herramientas de terceros:
+Por cada repo, con las funciones nativas de su plataforma, no herramientas de terceros. En los repos del equipo, la configuración del remoto es del equipo: se informa y se propone.
 
-- Secret scanning y push protection activados.
-- Dependabot alerts activado.
-- Rama principal protegida (sin push directo ni force push).
+- Escaneo de secretos con bloqueo en el push: secret scanning y push protection en GitHub, o Advanced Security en Azure DevOps.
+- Alertas de dependencias vulnerables: Dependabot en GitHub, o Advanced Security en Azure DevOps.
+- Rama principal protegida, sin push directo ni force push: branch protection en GitHub, o branch policies en Azure DevOps.
 - Repo privado, salvo decisión explícita.
 
 ## Cierre

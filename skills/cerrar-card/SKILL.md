@@ -8,13 +8,13 @@ argument-hint: "[CLAVE]"
 
 ## 1. Verificar
 
-Correr tests, lint, typecheck y build (comandos de `02-ESTANDARES.md`) y recorrer el Definition of Done. Mostrar la evidencia. Si algo falla, se informa con la salida y no se sigue cerrando como si nada.
+Correr tests, lint, typecheck y build (comandos de `02-ESTANDARES.md`) en cada repo que tocó la card, y recorrer el Definition of Done. Mostrar la evidencia. Si algo falla, se informa con la salida y no se sigue cerrando como si nada.
 
 Si la card tiene `PRUEBAS-[CLAVE].md`: los casos tienen que estar corridos con `/pruebas-e2e` (si no, correrlo ahora), en verde y con su evidencia en `tasks/evidencias/[CLAVE]/`. Si después hubo cambios de código, se vuelven a correr para que la evidencia corresponda a lo que se entrega.
 
 ## 2. Code review
 
-Invocar `/code-review` sobre los cambios de la card (nivel por defecto). Los hallazgos confirmados se corrigen; los que no se corrigen ahora se registran (H-nn o P-nn) y se mencionan en el comentario del gestor.
+Invocar `/code-review` sobre los cambios de la card (nivel por defecto). `/code-review` y `/security-review` trabajan sobre el diff de un repo: con varios repos, se corren una vez por cada repo tocado, apuntando a ese repo. Los hallazgos confirmados se corrigen; los que no se corrigen ahora se registran (H-nn o P-nn) y se mencionan en el comentario del gestor.
 
 ## 3. Security review (condicional)
 
@@ -36,7 +36,7 @@ Si no aplica, decir por qué en una línea. Los hallazgos sin resolver van como 
 - `bitacora/` del día: qué se hizo.
 - `00-INDEX.md`: estado.
 - `05-ENTREGAS.md`: terminada con fecha y link a la evidencia. **No** figura como entregada hasta que esté donde el cliente la ve.
-- Si hay git: proponer el mensaje de commit. Commitear solo si el usuario lo pide.
+- Si hay git: proponer el mensaje de commit de cada repo tocado, con la convención de ese repo (la del equipo, si es suyo). Commitear solo si el usuario lo pide. Si hay PRs, uno por repo, siguiendo el flujo de su dueño. El comentario del gestor lista todos.
 - Sin atribución a ninguna IA, en ninguna forma (regla dura del `CLAUDE.md`): ni `Co-Authored-By` u otros trailers, ni "Generated with…", ni links a sesiones. Esto vale para el commit, la descripción del PR, el comentario en el gestor y el CHANGELOG. Antes de mostrar cualquiera de esos textos, revisarlo.
 
 ## 5. Proponer el cierre en el gestor

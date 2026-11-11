@@ -8,6 +8,8 @@ argument-hint: "[CLAVE]"
 
 Requiere un plan aprobado en el doc de la card. Si no lo hay, primero `/planificar-card`.
 
+Con varios repos, cada tarea se trabaja en su repo: sus comandos de test y lint (sección del repo en `02-ESTANDARES.md`), su rama según el flujo del dueño, y sus reglas propias si es del equipo. Los comandos se corren desde el repo (`git -C <ruta>`, o `cd <ruta> && …`), nunca desde la raíz como si fuera uno.
+
 ## Por cada tarea del plan
 
 1. **Test que falla.** Escribir el test de lo que la tarea agrega o corrige. Correrlo y ver que falla **por el motivo esperado** (no por un import roto o un typo).

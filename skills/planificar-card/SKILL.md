@@ -26,13 +26,15 @@ Si hay más de una forma razonable, presentar 2 o 3 con sus trade-offs y una rec
 
 Escribirlo en la sección **Diseño** del doc de la card: qué piezas se tocan o se crean, la responsabilidad de cada una, datos y contratos, manejo de errores, cómo se prueba. Si es largo, mostrarlo por partes y validar cada una.
 
+Si la card toca más de un repo, el diseño dice qué cambia en cada uno, el contrato entre ellos (API, eventos, esquemas) y en qué orden se integran y despliegan sin romper al otro. En los repos del equipo, el diseño sigue sus reglas propias (su `CLAUDE.md`, sus convenciones).
+
 Si toca UI, pasar antes por `/diseno-frontend`.
 
 ## 5. Plan
 
 En la sección **Plan** del doc de la card, tareas chicas (de 2 a 10 minutos cada una), y cada una con:
 
-- archivos que toca
+- repo y archivos que toca (con varios repos, las rutas van desde la raíz del workspace: `backend/src/…`)
 - el test que la demuestra (o por qué no lleva test)
 - cómo se verifica (comando y resultado esperado)
 

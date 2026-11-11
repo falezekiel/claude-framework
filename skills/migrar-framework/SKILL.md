@@ -12,7 +12,7 @@ Plantillas actuales: `${CLAUDE_SKILL_DIR}/../iniciar-proyecto/plantillas/`. La v
 
 ## 0. Diagnóstico (sin escribir nada)
 
-Leer `tasks/` y la raíz del proyecto. Armar una tabla de lo que hay contra lo actual:
+Leer `tasks/` y la raíz del proyecto. Medir el workspace como en el paso 2 de `/iniciar-proyecto`: si la raíz es un repo o una carpeta con varios repos, quién es el dueño de cada uno y qué reglas propias tiene. Armar una tabla de lo que hay contra lo actual:
 
 | Pieza | Qué revisar |
 |---|---|
@@ -27,23 +27,30 @@ Leer `tasks/` y la raíz del proyecto. Armar una tabla de lo que hay contra lo a
 | `08-SEGURIDAD.md` | Existe |
 | `PRUEBAS-*.md` | Columnas Tipo y Evidencia |
 | `tasks/evidencias/` | Existe |
-| Git | Es repo |
+| Workspace | Topología, repos con su dueño propuesto, sus `CLAUDE.md` y `.claude/`, cómo se respalda `tasks/` |
+| Hook `commit-msg` | En qué repos está, y cómo correspondería según el dueño |
+| Material fuera de `tasks/` | Notas sueltas, carpetas de evidencias, listas de pendientes en otros archivos |
 
 Mostrar el diagnóstico con el plan de cambios y **esperar el OK**.
 
 ## 1. `CLAUDE.md`
 
-Crearlo desde la plantilla con los parámetros que ya estén en los docs (`01-CONTEXTO`, `03-FLUJO-GESTOR`) o en el prompt viejo, si el usuario lo pega. Lo que no esté, se pregunta. Si ya existe un `CLAUDE.md`, se integra: se conserva lo propio del proyecto y se agregan las secciones nuevas.
+Crearlo desde la plantilla con los parámetros que ya estén en los docs (`01-CONTEXTO`, `03-FLUJO-GESTOR`) o en el prompt viejo, si el usuario lo pega. Lo que no esté, se pregunta. Si ya existe un `CLAUDE.md` del framework, se integra: se conserva lo propio del proyecto y se agregan las secciones nuevas, incluida **Workspace y repos** con el mapa confirmado. Un `CLAUDE.md` de un repo del equipo no se toca: el del framework va en la raíz del workspace y lo referencia en la columna "Reglas propias".
 
 ## 2. Docs existentes: agregar, no reescribir
 
 - Se agregan columnas, filas e ítems nuevos. No se reformatea lo existente ni se renumeran D/H/P.
 - Las cards en curso siguen como están: el flujo nuevo aplica desde el próximo paso o la próxima card.
+- **Material fuera de `tasks/`:** se incorpora sin reescribirlo.
+  - Decisiones y hallazgos de notas sueltas → D-nn y H-nn nuevos en `04-BITACORA.md`, con la fecha y el archivo de origen.
+  - Carpetas de evidencias → `tasks/evidencias/[CLAVE]/AAAA-MM-DD/`. Se copian. Los originales se borran solo con OK y con un punto de restauración antes.
+  - Pendientes → `07-PENDIENTES.md`, clasificados 🔴/🟡/🟢.
+  - Lo que no tenga card o fecha clara se pregunta: no se inventa.
 
 ## 3. Lo nuevo
 
 - `.claude/settings.json` desde `claude-settings.json`, mostrándolo antes. Si Claude venía leyendo el `.env`, se pasa a trabajar con `.env.example`. Si el proyecto ya tenía un settings, se combinan: se suman `attribution` y las reglas nuevas sin borrar las existentes.
-- Regla dura "nunca una IA como autora ni coautora": se reemplaza la versión vieja en el `CLAUDE.md` y se instala el hook `commit-msg` como en el paso 11 de `/iniciar-proyecto`. Se buscan atribuciones en la historia y se informan. No se reescribe la historia sin OK.
+- Regla dura "nunca una IA como autora ni coautora": se reemplaza la versión vieja en el `CLAUDE.md` y se instala el hook `commit-msg` en cada repo según su dueño, como en el paso 11 de `/iniciar-proyecto`: versionado en los propios y local en los del equipo. Se buscan atribuciones en la historia y se informan. No se reescribe la historia sin OK.
 - `08-SEGURIDAD.md`: correr `/hardening inicial`, o dejarlo como pendiente si el usuario prefiere.
 - Playwright: proponerlo según el paso 1 de `/pruebas-e2e`, con OK.
 - `06-DISENO.md` si hay frontend: documentar el sistema visual existente, sin inventar uno nuevo.

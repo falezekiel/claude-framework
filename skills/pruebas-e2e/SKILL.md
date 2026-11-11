@@ -20,6 +20,8 @@ Si el proyecto todavía no tiene Playwright:
    npx playwright install chromium
    ```
    Si el repo no es Node, proponer una carpeta `e2e/` con su propio `package.json`, o Playwright para Python si el equipo ya trabaja en Python.
+
+   **Dónde va:** en un repo propio, dentro del repo. Si los repos son del equipo (tabla **Workspace y repos** del `CLAUDE.md`), Playwright no se agrega a sus dependencias sin acordarlo. Va en una carpeta `e2e/` con su propio `package.json` en la raíz del workspace, y prueba la app levantada desde los repos. Las rutas de abajo (`e2e/`, `playwright.config.ts`) son relativas a donde quede.
 2. Copiar `playwright.config.ts` a la raíz y `evidencia.ts` a `e2e/`. Ajustar `baseURL` y `webServer` al proyecto.
 3. Agregar a `.gitignore`: `test-results/`, `playwright-report/`, `playwright/.auth/`.
 4. Anotar el comando en `02-ESTANDARES.md` (sección Comandos) y registrar la decisión como D-nn.

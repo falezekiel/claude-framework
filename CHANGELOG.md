@@ -1,5 +1,30 @@
 # Changelog
 
+## 2.3.0 — 2026-11-11
+
+### Agregado
+
+- **Workspaces con varios repos y repos del equipo.** La raíz ya no tiene que ser un repo git.
+  - `/iniciar-proyecto` detecta la topología: la raíz es el repo, o es una carpeta con repos adentro.
+  - Clasifica cada repo como **propio**, **equipo** o **referencia**, y lo confirma con el usuario.
+  - Deja el mapa en la sección nueva **Workspace y repos** del `CLAUDE.md`.
+- Repos del equipo: el código se trabaja con el flujo del equipo, y su `CLAUDE.md`, `.claude/`, CI y configuración no se tocan sin acordarlo (P-nn). Nada del framework se commitea en ellos.
+- Las reglas propias de cada repo (sus `CLAUDE.md`, convenciones) se suman a las del framework, y frente a las reglas duras gana la más estricta.
+- Si la raíz no es un repo, `tasks/` se respalda en un repo propio de documentación (recomendado) o con copias.
+- Si la raíz es un repo del equipo, se recomienda una carpeta de workspace que lo contenga.
+- `crear-punto.sh` acepta la ruta del repo: un punto de restauración por cada repo que toca la operación.
+- `/migrar-framework` incorpora el material que está fuera de `tasks/`: notas → D/H, carpetas de evidencias → `tasks/evidencias/`, pendientes → `07-PENDIENTES`.
+
+### Cambiado
+
+- Hook `commit-msg` según el dueño: versionado en los repos propios y local en `.git/hooks/` en los del equipo. Si ya hay un hook, se encadena. Si el equipo usa `core.hooksPath` propio, no se pisa: se registra como H-nn.
+- El `.claude/settings.json` de la raíz suma las reglas `deny` y `ask` de los repos del equipo, que no se cargan al abrir Claude Code en la raíz.
+- `/inicio-dia` revisa el estado de cada repo, que el hook siga instalado y si aparecieron repos nuevos.
+- `/planificar-card`, `/ejecutar-card` y `/cerrar-card` trabajan por repo: rutas, comandos, ramas, `/code-review`, commits y PRs.
+- `/pruebas-e2e`: con repos del equipo, Playwright va en una carpeta `e2e/` propia en la raíz, no en las dependencias del equipo.
+- `/hardening`: secretos, dependencias y remoto se revisan por repo, con GitHub y Azure DevOps.
+- Plantillas: la card lleva repos, ramas y PRs, y `02-ESTANDARES` y `08-SEGURIDAD` se organizan por repo.
+
 ## 2.2.0 — 2026-11-10
 
 ### Cambiado

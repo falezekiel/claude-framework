@@ -57,7 +57,14 @@ Abrir Claude Code en la carpeta del proyecto y:
 | Proyecto que usa la versión anterior (el prompt pegado, o una v2 más vieja) | `/migrar-framework` |
 | Proyecto que ya tiene el framework actual | Nada: Claude lee el `CLAUDE.md` del proyecto y arrancás con `/inicio-dia` |
 
-**Ninguna IA figura como autora ni coautora** de nada: commits, PRs, issues, código ni documentos. Es una regla dura del `CLAUDE.md` del proyecto, y no queda solo escrita. `/iniciar-proyecto` apaga la atribución de Claude Code en `.claude/settings.json` e instala un hook `commit-msg` que rechaza cualquier commit con atribución a una IA, lo haga quien lo haga. El hook es configuración local de git: en cada clon nuevo hay que activarlo una vez con `git config core.hooksPath .githooks`.
+**Ninguna IA figura como autora ni coautora** de nada: commits, PRs, issues, código ni documentos. Es una regla dura del `CLAUDE.md` del proyecto, y no queda solo escrita. `/iniciar-proyecto` apaga la atribución de Claude Code en `.claude/settings.json` e instala un hook `commit-msg` que rechaza cualquier commit con atribución a una IA, lo haga quien lo haga. En los repos propios el hook se versiona, y en cada clon nuevo se activa una vez con `git config core.hooksPath .githooks`. En los repos del equipo se instala solo en tu clon (`.git/hooks/`), sin commitear nada.
+
+**No hace falta que la raíz sea un repo.** El framework vive en la carpeta donde abrís Claude Code, que puede ser el repo o una carpeta con varios repos adentro (backend, frontend, clones de referencia). `/iniciar-proyecto` detecta los repos y propone el dueño de cada uno:
+- **propio:** se versiona todo;
+- **equipo:** el código se trabaja normal, pero su `CLAUDE.md`, `.claude/` y configuración no se tocan sin acordarlo;
+- **referencia:** solo lectura.
+
+El mapa queda en el `CLAUDE.md` y las demás skills trabajan repo por repo: `git status`, puntos de restauración, `/code-review`, commits y PRs.
 
 Para que un equipo comparta el framework en un proyecto, `/iniciar-proyecto` puede dejar el marketplace referenciado en el `.claude/settings.json` del proyecto. Cada persona igual corre una vez `claude plugin install framework@framework-claude --scope project`: Claude Code no instala plugins solo.
 

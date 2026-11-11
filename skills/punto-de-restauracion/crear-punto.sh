@@ -3,11 +3,14 @@
 # no trackeados; respeta .gitignore) en refs/restauracion/<fecha-hora>.
 # No toca la rama actual, el indice ni los archivos. No se pushea.
 #
-# Uso: bash crear-punto.sh "motivo"
+# Uso: bash crear-punto.sh "motivo" [ruta-del-repo]
+#      (sin ruta, usa el repo de la carpeta actual)
 set -euo pipefail
 
-motivo="${1:?Falta el motivo. Uso: crear-punto.sh \"motivo\"}"
-git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { echo "ERROR: no es un repositorio git" >&2; exit 1; }
+motivo="${1:?Falta el motivo. Uso: crear-punto.sh \"motivo\" [ruta-del-repo]}"
+repo="${2:-.}"
+cd "$repo" || { echo "ERROR: no existe la carpeta $repo" >&2; exit 1; }
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { echo "ERROR: $repo no es un repositorio git" >&2; exit 1; }
 
 raiz="$(git rev-parse --show-toplevel)"
 cd "$raiz"
@@ -30,6 +33,6 @@ git update-ref "refs/restauracion/$id" "$commit"
 [ "$(git rev-parse "refs/restauracion/$id^{tree}")" = "$arbol" ] || { echo "ERROR: verificacion fallida" >&2; exit 1; }
 archivos="$(git ls-tree -r --name-only "refs/restauracion/$id" | wc -l | tr -d ' ')"
 
-echo "OK refs/restauracion/$id ($archivos archivos) - $motivo"
-echo "Restaurar un archivo: git restore --source=refs/restauracion/$id -- <ruta>"
-echo "Restaurar todo:       git restore --source=refs/restauracion/$id --worktree -- ."
+echo "OK $raiz: refs/restauracion/$id ($archivos archivos) - $motivo"
+echo "Restaurar un archivo: git -C \"$raiz\" restore --source=refs/restauracion/$id -- <ruta>"
+echo "Restaurar todo:       git -C \"$raiz\" restore --source=refs/restauracion/$id --worktree -- ."

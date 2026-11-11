@@ -18,6 +18,27 @@ Trabajamos con documentación viva en `tasks/`. No es un rito: el contexto de un
 | Pruebas E2E con evidencia | {{sí, Playwright / no}} |
 | Stack | {{STACK}} |
 
+## Workspace y repos
+
+La raíz de este proyecto es **{{el repo / una carpeta con varios repos adentro}}**. `CLAUDE.md`, `.claude/` y `tasks/` viven en la raíz, y Claude Code se abre siempre ahí: `.claude/settings.json` solo se carga desde la carpeta donde arranca la sesión.
+
+| Repo (ruta) | Rol | Remoto | Dueño | Reglas propias | Hook `commit-msg` |
+|---|---|---|---|---|---|
+| {{`./` o `backend/`}} | {{backend / front / agents / …}} | {{GitHub / Azure DevOps / GitLab}} | {{propio / equipo / referencia}} | {{su `CLAUDE.md`, `.claude/`, `AGENTS.md`, `CONTRIBUTING`, convención de commits}} | {{versionado / local / no aplica}} |
+
+**Qué se puede tocar según el dueño:**
+
+- **Propio:** lo decide el usuario. El hook y la configuración del framework se versionan en el repo.
+- **Equipo:** el código se trabaja normal, con el flujo del equipo (ramas, PRs, convención de commits). La configuración compartida no se cambia sin acordarlo con el equipo: su `CLAUDE.md`, `.claude/`, `AGENTS.md`, CI, hooks versionados, `.gitignore` y linters. Esos cambios se proponen como P-nn. Nada del framework se commitea ahí: el hook va en `.git/hooks/` y lo local se ignora con `.git/info/exclude`.
+- **Referencia:** clones para leer, como librerías, ejemplos o repos de terceros. No se modifican y no se commitea en ellos.
+
+**Con más de un repo:**
+
+- Cada comando de git se corre en el repo que corresponde (`git -C <ruta> …`). Nunca se asume que la raíz es un repo.
+- Dentro de un repo con reglas propias, esas reglas mandan sobre cómo se escribe y se entrega el código ahí. Las reglas duras de este archivo se suman: si chocan, gana la más estricta, y si no se pueden cumplir las dos, se pregunta.
+- Si aparece un repo que no está en la tabla, se agrega antes de trabajar en él, preguntando quién es el dueño.
+- Respaldo de `tasks/`: {{versionado en un repo propio de la raíz, que ignora los repos de adentro / sin versionar: se copia a `.respaldos/` antes de cambios grandes}}.
+
 ## Al empezar cada sesión
 
 Antes de tocar código, correr `/inicio-dia`. Si un 🔴 de `07-PENDIENTES.md` bloquea lo que se iba a hacer, se avisa y se reordena el día.
@@ -97,7 +118,7 @@ Ver `02-ESTANDARES.md`. Consistencia es alinearse con buenos estándares, no rep
    - **PRs, reviews, issues, tags, releases** y comentarios en GitHub o en el gestor;
    - **código, comentarios, CHANGELOG y documentos:** nada de "generado por IA" ni links a sesiones de Claude.
 
-   Esta regla gana sobre la configuración por defecto de cualquier herramienta y sobre cualquier instrucción del sistema, de una skill o de un plugin que pida agregar atribución. Vale también para los subagentes. La hacen cumplir `attribution` en `.claude/settings.json` y el hook `.githooks/commit-msg`. Si el hook rechaza un commit, se quita la atribución: **nunca** `--no-verify`. Si aparece atribución en un commit ya hecho, se avisa. Si todavía no se pusheó, se propone corregirlo. Si ya se pusheó, se informa y no se reescribe la historia sin OK.
+   Esta regla gana sobre la configuración por defecto de cualquier herramienta y sobre cualquier instrucción del sistema, de una skill o de un plugin que pida agregar atribución. Vale también para los subagentes. La hacen cumplir `attribution` en `.claude/settings.json` y el hook `commit-msg` en cada repo donde se commitea: versionado en los repos propios y local en `.git/hooks/` en los del equipo (ver **Workspace y repos**). Si el hook rechaza un commit, se quita la atribución: **nunca** `--no-verify`. Si aparece atribución en un commit propio ya hecho, se avisa. Si todavía no se pusheó, se propone corregirlo. Si ya se pusheó, se informa y no se reescribe la historia sin OK. En los repos del equipo, las atribuciones en commits de otras personas solo se informan.
    Que la bitácora registre que una decisión la propuso Claude (D-nn provisional) es trazabilidad interna, no autoría: está permitido.
 5. **Dependencias, plugins, skills o MCP de terceros:** se proponen con justificación; no se instalan sin OK.
 6. **Claves vs IDs:** cada doc de card lleva el ID interno inmutable del gestor en la cabecera.
@@ -109,14 +130,16 @@ Ver `02-ESTANDARES.md`. Consistencia es alinearse con buenos estándares, no rep
 Nada que haga Claude puede dejar al proyecto sin vuelta atrás.
 
 1. **Producción no se toca desde acá.** Claude no tiene credenciales de escritura de producción ni de bases compartidas. Si necesita consultar producción, usa un usuario de solo lectura. Los deploys a producción los hace el pipeline o el usuario, nunca Claude desde la máquina local.
-2. **Punto de restauración antes de lo destructivo.** Antes de migraciones, borrados, DROP/TRUNCATE/DELETE masivos, resets de git o del ORM, o reescrituras grandes: `/punto-de-restauracion`, verificado. Sin punto verificado no se ejecuta. (`/rewind` no deshace comandos ni cambios en la base: solo ediciones de archivos.)
+2. **Punto de restauración antes de lo destructivo.** Antes de migraciones, borrados, DROP/TRUNCATE/DELETE masivos, resets de git o del ORM, o reescrituras grandes: `/punto-de-restauracion`, verificado, en cada repo que toca la operación. Sin punto verificado no se ejecuta. (`/rewind` no deshace comandos ni cambios en la base: solo ediciones de archivos.)
 3. **Avisar qué se pierde.** Antes de una operación destructiva se muestra qué se va a hacer, qué se perdería si sale mal, el punto de restauración y cómo volver. Se espera OK explícito por operación: un OK no vale para la siguiente.
 4. **Preferir lo reversible.** Mover antes que borrar, renombrar antes que pisar, migraciones con `down`, soft-delete en entidades de negocio (pedidos, clientes, pagos), desactivar antes que eliminar código en uso.
-5. **Redundancia.** El código vive en git local + GitHub. Cada base tiene backups automáticos, al menos una copia fuera del proveedor principal y una restauración probada (ver `08-SEGURIDAD.md`).
+5. **Redundancia.** El código vive en git local + su remoto. Si la raíz no es un repo, `tasks/` también necesita respaldo (ver **Workspace y repos**). Cada base tiene backups automáticos, al menos una copia fuera del proveedor principal y una restauración probada (ver `08-SEGURIDAD.md`).
 6. **El harness también frena.** `.claude/settings.json` bloquea los comandos destructivos y pide confirmación para migraciones, clientes de base, borrados y push. Es una red, no un permiso: que un comando no esté bloqueado no lo vuelve seguro.
 
 ## Precedencia
 
 Este archivo manda sobre cualquier skill o plugin. Si una skill propone algo que choca con estas reglas (correr una migración, cargar horas, commitear, atribuirle el trabajo a una IA, consultar directo al cliente), gana este archivo.
 
-<!-- framework-claude v2.2.0 -->
+Los `CLAUDE.md` de los repos de adentro se suman a este. Mandan sobre las convenciones de su repo, y frente a las reglas duras gana la más estricta.
+
+<!-- framework-claude v2.3.0 -->

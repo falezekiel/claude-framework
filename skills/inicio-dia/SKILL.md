@@ -13,7 +13,10 @@ En este paso no se toca código.
    - El último archivo de `tasks/bitacora/`: en qué quedó la sesión anterior.
    - `tasks/00-INDEX.md`: estado de las cards y orden de ataque.
 2. **Crear** `tasks/bitacora/AAAA-MM-DD.md` de hoy si no existe (plantilla en `${CLAUDE_SKILL_DIR}/../iniciar-proyecto/plantillas/BITACORA-DIA.md`).
-3. **Si hay git**, mirar `git status`: si quedaron cambios sin commitear de la sesión anterior, mencionarlos.
+3. **Repos** (tabla **Workspace y repos** del `CLAUDE.md`; si no está, el repo de la raíz). En cada repo que no sea de referencia:
+   - `git -C <ruta> status -sb`: cambios sin commitear de la sesión anterior y en qué rama está cada uno.
+   - Si el repo es propio o del equipo, que el hook `commit-msg` siga instalado. El hook local de `.git/hooks/` se pierde al reclonar. Si falta, avisar y proponer reinstalarlo.
+   - Si aparece una carpeta con `.git` que no está en la tabla, mencionarla: hay que sumarla al mapa (con su dueño) antes de trabajar en ella.
 4. **Reportar en pocas líneas:**
    - **Bloqueos:** cada 🔴 abierto, qué card bloquea y desde cuándo está abierto.
    - **Ayer:** en qué quedó (card y paso del plan).

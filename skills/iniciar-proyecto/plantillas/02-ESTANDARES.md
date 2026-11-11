@@ -1,6 +1,8 @@
 # Estándares — {{PROYECTO}}
 
 > Construido midiendo el repo el AAAA-MM-DD, no suponiendo. Se vuelve a medir si el repo cambia mucho.
+>
+> Con varios repos: las secciones "Punto de partida medido", "Convenciones", "Lo que no se replica" y "Comandos" se repiten una vez por repo (`## backend/`, `## frontend/`…). En los repos del equipo, el punto de partida son sus convenciones documentadas. El Definition of Done es uno solo para todos.
 
 ## Punto de partida medido
 

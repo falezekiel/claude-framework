@@ -1,6 +1,8 @@
 # Seguridad — {{PROYECTO}}
 
 > Línea base de seguridad del proyecto. La completa `/hardening` (al iniciar y antes de cada salida a producción). Cada ✅ dice cómo se verificó; cada ❌ tiene card o P-nn.
+>
+> Con varios repos, las filas de Secretos, Dependencias, Repo remoto y el hook se repiten por repo, con el repo entre corchetes en el Punto (`[backend] Audit sin críticas`). En repos del equipo, los ❌ de configuración compartida se resuelven con un P-nn al equipo.
 
 **Última revisión:** AAAA-MM-DD · (inicial / pre-producción)
 
@@ -36,9 +38,9 @@
 | Datos | Copia del backup fuera del proveedor principal | | | |
 | Datos | Restauración probada (fecha de la última prueba) | | | |
 | Datos | Migraciones reversibles y soft-delete en entidades de negocio | | | |
-| GitHub | Secret scanning + push protection | | | |
-| GitHub | Dependabot alerts | | | |
-| GitHub | Rama principal protegida | | | |
+| Repo remoto | Escaneo de secretos con bloqueo en el push | | | |
+| Repo remoto | Alertas de dependencias vulnerables | | | |
+| Repo remoto | Rama principal protegida | | | |
 
 Estados: ✅ cumple · ❌ falta (🔴 antes de producción / 🟡 pronto / 🟢 mejora) · N/A no aplica (con motivo)
 

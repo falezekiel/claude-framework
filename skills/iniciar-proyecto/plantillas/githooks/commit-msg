@@ -2,7 +2,8 @@
 # framework-claude — regla dura: nunca una IA como coautora.
 # Rechaza el commit si el mensaje o la identidad del autor/committer atribuyen
 # el trabajo a una IA (Claude, Copilot, ChatGPT, Gemini, Cursor, etc.).
-# Se activa con: git config core.hooksPath .githooks
+# Repo propio:       versionado en .githooks/ + git config core.hooksPath .githooks
+# Repo del equipo:   solo local, copiado a .git/hooks/commit-msg (sin commitear)
 
 msg_file="$1"
 ias='claude|anthropic|copilot|openai|chatgpt|gpt-[0-9]|codex|gemini|bard|cursor|codeium|windsurf|tabnine|aider|devin|codewhisperer|amazon q|jules|(^|[^a-z0-9])ai([^a-z0-9]|$)'
