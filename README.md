@@ -137,3 +137,5 @@ Los issues y los PRs son bienvenidos. Antes de abrir un PR, leé [CONTRIBUTING.m
 ## Licencia
 
 [MIT](LICENSE).
+
+<!-- prueba de checks: este PR no se mergea -->
