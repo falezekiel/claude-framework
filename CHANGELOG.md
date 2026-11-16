@@ -1,5 +1,26 @@
 # Changelog
 
+## Sin publicar
+
+(Los cambios mergeados que todavía no salieron en una versión van acá.)
+
+## 2.3.1 — 2026-11-16
+
+Preparación para publicar el repo y aceptar contribuciones. Las skills no cambian.
+
+### Agregado
+
+- Licencia MIT.
+- `CONTRIBUTING.md`: qué cambios encajan, cómo probarlos, commits sin atribución a IAs y cómo se publica una versión.
+- Plantilla de PR y `CODEOWNERS`.
+- Workflow `sin-atribucion-ia`: rechaza PRs con atribución a una IA en los commits, el título o la descripción. Usa el hook de la rama base, para que un PR no pueda aflojar su propio chequeo, y corre las pruebas del hook.
+- `pruebas/commit-msg.sh`: 12 casos que el hook tiene que rechazar o dejar pasar.
+
+### Cambiado
+
+- `plugin.json` fija `version`: quien instala el plugin recibe una versión cuando se publica a propósito, no con cada push a `main`.
+- README: sin la sección de repo privado, con las secciones Contribuir y Licencia.
+
 ## 2.3.0 — 2026-11-11
 
 ### Agregado

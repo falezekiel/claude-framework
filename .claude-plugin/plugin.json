@@ -1,5 +1,8 @@
 {
   "name": "framework",
+  "version": "2.3.1",
   "description": "Metodología de documentación viva para proyectos con Claude Code: flujo por card, evidencia de pruebas, hardening y puntos de restauración.",
-  "author": { "name": "EzeDecan" }
+  "author": { "name": "Dario Ezequiel Decandido", "url": "https://github.com/falezekiel" },
+  "repository": "https://github.com/falezekiel/claude-framework",
+  "license": "MIT"
 }

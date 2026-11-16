@@ -30,9 +30,7 @@ claude plugin install framework@framework-claude --scope user
 
 Las skills quedan con el prefijo del plugin: `/framework:iniciar-proyecto`, `/framework:cerrar-card`, etc. Las instrucciones internas las nombran sin prefijo, y Claude las resuelve igual.
 
-**Actualizar:** `/plugin marketplace update framework-claude` (o activar la actualización automática en `/plugin` → Marketplaces). Cada push a este repo es una versión nueva.
-
-**Repo privado:** quien instale necesita acceso de lectura al repo en GitHub y git autenticado en su máquina.
+**Actualizar:** `/plugin marketplace update framework-claude` (o activar la actualización automática en `/plugin` → Marketplaces). Llega una versión nueva cuando cambia `version` en `.claude-plugin/plugin.json`, no con cada push.
 
 ### B. Como skills personales (para desarrollar el framework)
 
@@ -131,3 +129,11 @@ tasks/
 ## Versionado
 
 La versión va al final del `CLAUDE.md` de cada proyecto (`<!-- framework-claude vX.Y.Z -->`), así `/migrar-framework` sabe desde dónde migrar. Los cambios se registran en [CHANGELOG.md](CHANGELOG.md).
+
+## Contribuir
+
+Los issues y los PRs son bienvenidos. Antes de abrir un PR, leé [CONTRIBUTING.md](CONTRIBUTING.md): explica qué cambios encajan, cómo probarlos y cómo se publica una versión. Para reportar una vulnerabilidad, usá la pestaña **Security** del repo, no un issue público.
+
+## Licencia
+
+[MIT](LICENSE).

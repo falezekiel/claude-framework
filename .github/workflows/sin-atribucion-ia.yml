@@ -1,0 +1,60 @@
+name: Sin atribución a IAs
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # El hook se toma de la rama base, no del PR: un PR no puede aflojar su propio chequeo.
+      - name: Hook de la rama base
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git show "origin/$BASE_REF:skills/iniciar-proyecto/plantillas/githooks/commit-msg" > "$RUNNER_TEMP/commit-msg"
+          chmod +x "$RUNNER_TEMP/commit-msg"
+
+      - name: Commits del PR
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          fallas=0
+          for c in $(git rev-list "$BASE_SHA..$HEAD_SHA"); do
+            git log -1 --format=%B "$c" > "$RUNNER_TEMP/msg"
+            if ! GIT_AUTHOR_NAME="$(git log -1 --format=%an "$c")" GIT_AUTHOR_EMAIL="$(git log -1 --format=%ae "$c")" \
+                 GIT_COMMITTER_NAME="$(git log -1 --format=%cn "$c")" GIT_COMMITTER_EMAIL="$(git log -1 --format=%ce "$c")" \
+                 sh "$RUNNER_TEMP/commit-msg" "$RUNNER_TEMP/msg"; then
+              echo "::error::El commit $c atribuye el trabajo a una IA."
+              fallas=1
+            fi
+          done
+          exit $fallas
+
+      - name: Título y descripción del PR
+        env:
+          TITULO: ${{ github.event.pull_request.title }}
+          CUERPO: ${{ github.event.pull_request.body }}
+        run: |
+          printf '%s\n\n%s\n' "$TITULO" "$CUERPO" > "$RUNNER_TEMP/pr"
+          if ! GIT_AUTHOR_NAME=pr GIT_AUTHOR_EMAIL=pr@example.com GIT_COMMITTER_NAME=pr GIT_COMMITTER_EMAIL=pr@example.com \
+               sh "$RUNNER_TEMP/commit-msg" "$RUNNER_TEMP/pr"; then
+            echo "::error::La descripción del PR atribuye el trabajo a una IA."
+            exit 1
+          fi
+
+  pruebas-del-hook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pruebas del hook commit-msg
+        run: bash pruebas/commit-msg.sh

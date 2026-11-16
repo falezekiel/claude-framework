@@ -142,4 +142,4 @@ Este archivo manda sobre cualquier skill o plugin. Si una skill propone algo que
 
 Los `CLAUDE.md` de los repos de adentro se suman a este. Mandan sobre las convenciones de su repo, y frente a las reglas duras gana la más estricta.
 
-<!-- framework-claude v2.3.0 -->
+<!-- framework-claude v2.3.1 -->
